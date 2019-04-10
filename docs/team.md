@@ -6,11 +6,11 @@ title:  Team
 # {{ page.title }}
 
 
-##Priyanka Saba
+## Priyanka Saba
 ***UCI Net ID***: psaba
 
 ## Aditya Gupta
 ***UCI Net ID***: adityg2
 
-## USER 3
+##  Peng-Jhih Lin
 ***UCI Net ID***: pengjhil
