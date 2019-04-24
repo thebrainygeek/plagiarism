@@ -1,13 +1,10 @@
-
+from collections import defaultdict
 
 def getMissionFiles():
     #getting mission files, which are width by length by height, all are the same length
     files = dict()
     #one block on ground
-    files[1] = [[[None, None, None, None, "stone", None, None, None, None, None],
-                [None, None, None, None, None, None, None, None, None, None],
-                [None, None, None, None, None, None, None, None, None, None]]
-                ]
+    files[1][0]
     #several disconnected blocks on ground
     files[2] = [[[None, "stone", None, None, "stone", None, None, "stone", None, None],
                 [None, None, None, None, None, None, None, None, None, None],
