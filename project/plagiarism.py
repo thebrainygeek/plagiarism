@@ -37,6 +37,9 @@ import os
 import random
 import sys
 import time
+import reader
+from mission.mission2 import missionFile
+
 if sys.version_info[0] == 2:
     # Workaround for https://github.com/PythonCharmers/python-future/issues/262
     import Tkinter as tk
@@ -140,14 +143,25 @@ class TabQAgent(object):
         
         self.prev_s = None
         self.prev_a = None
-        
+        input = missionFile
+        print (input)
         is_first_action = True
+        current_level = 0
+        current_blocks = {}
         # main loop:
         world_state = agent_host.getWorldState()
-        while world_state.is_mission_running:
-
-            current_r = 0
-            
+        while world_state.is_mission_running and current_blocks!=input:
+            remaining_floor=reader.getOnZ(input,current_level)
+            while len(remaining_floor)>0:
+                block = random.choice(list(remaining_floor.keys()))
+                print(block)
+                location = {}
+                load_location(world_state,location)
+                move_to_target(location,block,world_state)
+                del remaining_floor[block]
+                current_blocks[block]="stone"
+            #current_r = 0
+            #while 
             # if is_first_action:
             #     # wait until have received a valid observation
             #     while True:
@@ -187,14 +201,14 @@ class TabQAgent(object):
             #             break
 
         # process final reward
-        self.logger.debug("Final reward: %d" % current_r)
-        total_reward += current_r
+        #self.logger.debug("Final reward: %d" % current_r)
+        #   total_reward += current_r
 
         # update Q values
-        if self.prev_s is not None and self.prev_a is not None:
-            self.updateQTableFromTerminatingState( current_r )
+        #if self.prev_s is not None and self.prev_a is not None:
+        #    self.updateQTableFromTerminatingState( current_r )
             
-        self.drawQ()
+        #self.drawQ()
     
         return total_reward
         
@@ -257,6 +271,70 @@ except RuntimeError as e:
 if agent_host.receivedArgument("help"):
     print(agent_host.getUsage())
     exit(0)
+    
+
+def load_location(world_state,location):
+    while world_state.is_mission_running:
+        time.sleep(0.1)
+        world_state = agent_host.getWorldState()
+        if len(world_state.errors) > 0:
+            raise AssertionError('Could not load loaction.')
+
+        if world_state.number_of_observations_since_last_state > 0:
+            msg = world_state.observations[-1].text
+            observations = json.loads(msg)
+            #print (observations.get(u'floorAll', 0))
+            print (observations)
+            if u'XPos' in observations:
+                location['X'] = observations[u'XPos']
+            if u'YPos' in observations:
+                location['Y'] = observations[u'YPos']
+            if u'ZPos' in observations:
+                location['Z'] = observations[u'ZPos']
+            break
+            
+def move_to_target(location,target,world_state):
+    x=target[0]-location['X']
+    y=target[2]-location['Y']
+    z=target[1]-location['Z']
+    
+    
+    print (x,y,z)
+    while(x>0.5):
+        agent_host.sendCommand('moveeast 1')
+        time.sleep(0.1)
+        x-=1
+    while(x<0.5):
+        agent_host.sendCommand('movewest 1')
+        time.sleep(0.1)
+        x+=1
+    while(z>0.5):
+        agent_host.sendCommand('movesouth 1')
+        time.sleep(0.1)
+        z-=1
+    while(z<0.5):
+        agent_host.sendCommand('movenorth 1')
+        time.sleep(0.1)
+        z+=1
+    if y!=0:
+        agent_host.sendCommand('pitch 0.5')
+        time.sleep(1)
+        agent_host.sendCommand('pitch 0')
+        agent_host.sendCommand('use 1')
+        #while location['Y'] >=target[2]+0.1 or location['Y'] <=target[2]-0.1:
+        agent_host.sendCommand('jump 1')
+        time.sleep(0.35)
+        agent_host.sendCommand('jump 0')
+        time.sleep(0.35)
+        load_location(world_state,location)
+    ## finish putting
+    agent_host.sendCommand('jump 0')
+    agent_host.sendCommand('use 0')
+    time.sleep(1)
+    
+    agent_host.sendCommand('movenorth 5')
+    load_location(world_state,location)
+    print(location)
 
 # -- set up the mission -- #
 mission_file = './world/world1.xml'
