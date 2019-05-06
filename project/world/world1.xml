@@ -35,6 +35,12 @@
                     </Inventory>
                 </AgentStart>
                 <AgentHandlers>
+                  <DiscreteMovementCommands>
+                      <ModifierList type="deny-list">
+                        <command>jump</command>
+                        <command>use</command>
+                      </ModifierList>
+                  </DiscreteMovementCommands>
                   <ObservationFromFullStats/>
                   <ContinuousMovementCommands turnSpeedDegs="180"/>
                   <InventoryCommands/>
