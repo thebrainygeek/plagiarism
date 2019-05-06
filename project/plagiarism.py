@@ -142,50 +142,49 @@ class TabQAgent(object):
         self.prev_a = None
         
         is_first_action = True
-        
         # main loop:
         world_state = agent_host.getWorldState()
         while world_state.is_mission_running:
 
             current_r = 0
             
-            if is_first_action:
-                # wait until have received a valid observation
-                while True:
-                    time.sleep(0.1)
-                    world_state = agent_host.getWorldState()
-                    for error in world_state.errors:
-                        self.logger.error("Error: %s" % error.text)
-                    for reward in world_state.rewards:
-                        current_r += reward.getValue()
-                    if world_state.is_mission_running and len(world_state.observations)>0 and not world_state.observations[-1].text=="{}":
-                        total_reward += self.act(world_state, agent_host, current_r)
-                        break
-                    if not world_state.is_mission_running:
-                        break
-                is_first_action = False
-            else:
-                # wait for non-zero reward
-                while world_state.is_mission_running and current_r == 0:
-                    time.sleep(0.1)
-                    world_state = agent_host.getWorldState()
-                    for error in world_state.errors:
-                        self.logger.error("Error: %s" % error.text)
-                    for reward in world_state.rewards:
-                        current_r += reward.getValue()
-                # allow time to stabilise after action
-                while True:
-                    time.sleep(0.1)
-                    world_state = agent_host.getWorldState()
-                    for error in world_state.errors:
-                        self.logger.error("Error: %s" % error.text)
-                    for reward in world_state.rewards:
-                        current_r += reward.getValue()
-                    if world_state.is_mission_running and len(world_state.observations)>0 and not world_state.observations[-1].text=="{}":
-                        total_reward += self.act(world_state, agent_host, current_r)
-                        break
-                    if not world_state.is_mission_running:
-                        break
+            # if is_first_action:
+            #     # wait until have received a valid observation
+            #     while True:
+            #         time.sleep(0.1)
+            #         world_state = agent_host.getWorldState()
+            #         for error in world_state.errors:
+            #             self.logger.error("Error: %s" % error.text)
+            #         for reward in world_state.rewards:
+            #             current_r += reward.getValue()
+            #         if world_state.is_mission_running and len(world_state.observations)>0 and not world_state.observations[-1].text=="{}":
+            #             total_reward += self.act(world_state, agent_host, current_r)
+            #             break
+            #         if not world_state.is_mission_running:
+            #             break
+            #     is_first_action = False
+            # else:
+            #     # wait for non-zero reward
+            #     while world_state.is_mission_running and current_r == 0:
+            #         time.sleep(0.1)
+            #         world_state = agent_host.getWorldState()
+            #         for error in world_state.errors:
+            #             self.logger.error("Error: %s" % error.text)
+            #         for reward in world_state.rewards:
+            #             current_r += reward.getValue()
+            #     # allow time to stabilise after action
+            #     while True:
+            #         time.sleep(0.1)
+            #         world_state = agent_host.getWorldState()
+            #         for error in world_state.errors:
+            #             self.logger.error("Error: %s" % error.text)
+            #         for reward in world_state.rewards:
+            #             current_r += reward.getValue()
+            #         if world_state.is_mission_running and len(world_state.observations)>0 and not world_state.observations[-1].text=="{}":
+            #             total_reward += self.act(world_state, agent_host, current_r)
+            #             break
+            #         if not world_state.is_mission_running:
+            #             break
 
         # process final reward
         self.logger.debug("Final reward: %d" % current_r)
@@ -260,16 +259,11 @@ if agent_host.receivedArgument("help"):
     exit(0)
 
 # -- set up the mission -- #
-mission_file = './tutorial_6.xml'
+mission_file = './world/world1.xml'
 with open(mission_file, 'r') as f:
     print("Loading mission from %s" % mission_file)
     mission_xml = f.read()
     my_mission = MalmoPython.MissionSpec(mission_xml, True)
-# add 20% holes for interest
-for x in range(1,4):
-    for z in range(1,13):
-        if random.random()<0.1:
-            my_mission.drawBlock( x,45,z,"lava")
 
 max_retries = 3
 
