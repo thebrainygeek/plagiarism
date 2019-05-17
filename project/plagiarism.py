@@ -155,9 +155,11 @@ class TabQAgent(object):
             while len(remaining_floor)>0:
                 block = random.choice(list(remaining_floor.keys()))
                 print(block)
-                location = {}
+                location = []
                 load_location(world_state,location)
-                move_to_target(location,block,world_state,current_blocks)
+                err = move_to_target(location,block,world_state,current_blocks)
+                if err:
+                    print("Error")
                 del remaining_floor[block]
                 current_blocks[block]="stone"
             #current_r = 0
@@ -316,11 +318,13 @@ def move_to_target(location,target,world_state,exist_floor):
     boundary = [min(target[0],location[0]),max(target[0],location[0]),
                 min(target[1],location[1]),max(target[1],location[1])]
     #print (boundary)
+    roadblocks = {}
     for block in exist_floor:
         boundary[0] = min(boundary[0],block[0])
         boundary[1] = max(boundary[1],block[0])
         boundary[2] = min(boundary[2],block[2])
         boundary[3] = max(boundary[3],block[2])
+        
     boundary[0]-=1
     boundary[1]+=1
     boundary[2]-=1
@@ -331,21 +335,25 @@ def move_to_target(location,target,world_state,exist_floor):
     prev_block = [-1] * (size)
     source = (location[0]-boundary[0])+x*(location[1]-boundary[2])
     dest = (target[0]-boundary[0])+x*(target[1]-boundary[2])
+    for block in exist_floor:
+        if block[0]!=location[0] or block[1]!=location[1]:
+            roadblocks[(block[0]-boundary[0])+x*(block[1]-boundary[2])]="stone"
     print("source:")
     print(source)
     print("dest")
-    print(dest)
+    print(dest)  
     blockset = set()
     blockset.add(source)
     q = queue.Queue()
     q.put(source)
     reach_flag = False
+    print (roadblocks)
     while not q.empty():
         cur = q.get()
         if cur == dest:
-            reach_flag = True
+            err_flag = False
             break
-        if cur not in exist_floor:
+        if cur not in roadblocks:
             blockset.add(cur)
             if (cur % x) != 0 and not cur-1 in blockset:
                 q.put(cur-1)
@@ -359,15 +367,18 @@ def move_to_target(location,target,world_state,exist_floor):
             if cur < size-x and not cur+x in blockset:
                 q.put(cur+x)
                 prev_block[cur+x] = cur
-    """if reach_flag == False:
-        return error"""
+    if err_flag :
+        return True
     #print(prev_block)
     path = []
     path.append(dest)
     end = dest
+    print (prev_block)
     while end !=source:
         path.append(prev_block[end])
         end = prev_block[end]
+        if end != -1:
+            print (end)
     path.reverse()
     action_list = extract_action_list_from_path(path,x)
     print("action list:")
@@ -390,6 +401,7 @@ def move_to_target(location,target,world_state,exist_floor):
     agent_host.sendCommand('use 0')
     time.sleep(1)
     print("////")
+    return False
 # -- set up the mission -- #
 mission_file = './world/world1.xml'
 with open(mission_file, 'r') as f:
