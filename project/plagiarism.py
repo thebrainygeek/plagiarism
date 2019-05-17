@@ -157,7 +157,7 @@ class TabQAgent(object):
                 print(block)
                 location = {}
                 load_location(world_state,location)
-                move_to_target(location,block,world_state)
+                move_to_target(location,block,world_state,current_blocks)
                 del remaining_floor[block]
                 current_blocks[block]="stone"
             #current_r = 0
@@ -284,58 +284,113 @@ def load_location(world_state,location):
             msg = world_state.observations[-1].text
             observations = json.loads(msg)
             #print (observations.get(u'floorAll', 0))
-            print (observations)
-            if u'XPos' in observations:
-                location['X'] = observations[u'XPos']
-            if u'YPos' in observations:
-                location['Y'] = observations[u'YPos']
-            if u'ZPos' in observations:
-                location['Z'] = observations[u'ZPos']
+            #print (observations)
+            #if u'XPos' in observations:
+            location.append(observations[u'XPos'])
+            #if u'YPos' in observations:
+            #location.append(observations[u'YPos'])
+            #if u'ZPos' in observations:
+            location.append(observations[u'ZPos'])
+            location.append(observations[u'YPos'])
             break
-            
-def move_to_target(location,target,world_state):
-    x=target[0]-location['X']
-    y=target[2]-location['Y']
-    z=target[1]-location['Z']
-    
-    
-    print (x,y,z)
-    while(x>0.5):
-        agent_host.sendCommand('moveeast 1')
-        time.sleep(0.1)
-        x-=1
-    while(x<0.5):
-        agent_host.sendCommand('movewest 1')
-        time.sleep(0.1)
-        x+=1
-    while(z>0.5):
-        agent_host.sendCommand('movesouth 1')
-        time.sleep(0.1)
-        z-=1
-    while(z<0.5):
-        agent_host.sendCommand('movenorth 1')
-        time.sleep(0.1)
-        z+=1
-    if y!=0:
-        agent_host.sendCommand('pitch 0.5')
-        time.sleep(1)
-        agent_host.sendCommand('pitch 0')
-        agent_host.sendCommand('use 1')
-        #while location['Y'] >=target[2]+0.1 or location['Y'] <=target[2]-0.1:
-        agent_host.sendCommand('jump 1')
-        time.sleep(0.35)
-        agent_host.sendCommand('jump 0')
-        time.sleep(0.35)
-        load_location(world_state,location)
+def extract_action_list_from_path(path_list,xsize):
+    action_trans = {-xsize: 'movenorth 1', xsize: 'movesouth 1', -1: 'movewest 1', 1: 'moveeast 1'}
+    alist = []
+    for i in range(len(path_list) - 1):
+        curr_block, next_block = path_list[i:(i + 2)]
+        alist.append(action_trans[next_block - curr_block])
+
+    return alist          
+def move_to_target(location,target,world_state,exist_floor):
+    print(location)
+    location[0] = math.ceil(location[0])
+    location[1] = math.ceil(location[1])
+    location[2] = math.ceil(location[2])
+    ## eastmost,westmost, northmost, southmost
+    print("location:")
+    print(location)
+    print("target:")
+    print(target)
+    print("exist floor:")
+    print(exist_floor)
+    boundary = [min(target[0],location[0]),max(target[0],location[0]),
+                min(target[1],location[1]),max(target[1],location[1])]
+    #print (boundary)
+    for block in exist_floor:
+        boundary[0] = min(boundary[0],block[0])
+        boundary[1] = max(boundary[1],block[0])
+        boundary[2] = min(boundary[2],block[2])
+        boundary[3] = max(boundary[3],block[2])
+    boundary[0]-=1
+    boundary[1]+=1
+    boundary[2]-=1
+    boundary[3]+=1
+    x = boundary[1]-boundary[0]+1
+    y = boundary[3]-boundary[2]+1
+    size = x*y
+    prev_block = [-1] * (size)
+    source = (location[0]-boundary[0])+x*(location[1]-boundary[2])
+    dest = (target[0]-boundary[0])+x*(target[1]-boundary[2])
+    print("source:")
+    print(source)
+    print("dest")
+    print(dest)
+    print 
+    blockset = set()
+    blockset.add(source)
+    q = queue.Queue()
+    q.put(source)
+    reach_flag = False
+    while not q.empty():
+        cur = q.get()
+        if cur == dest:
+            reach_flag = True
+            break
+        if cur not in exist_floor:
+            blockset.add(cur)
+            if (cur % x) != 0 and not cur-1 in blockset:
+                q.put(cur-1)
+                prev_block[cur-1] = cur
+            if (cur % x) != x-1 and not cur+1 in blockset:
+                q.put(cur+1)
+                prev_block[cur+1] = cur
+            if cur >= x and not cur-x in blockset:
+                q.put(cur-x)
+                prev_block[cur-x] = cur
+            if cur < size-x and not cur+x in blockset:
+                q.put(cur+x)
+                prev_block[cur+x] = cur
+    """if reach_flag == False:
+        return error"""
+    #print(prev_block)
+    path = []
+    path.append(dest)
+    end = dest
+    while end !=source:
+        path.append(prev_block[end])
+        end = prev_block[end]
+    path.reverse()
+    action_list = extract_action_list_from_path(path,x)
+    print("action list:")
+    print(action_list)
+    action_index = 0
+    while action_index < len(action_list):
+        agent_host.sendCommand(action_list[action_index])
+        action_index += 1
+    agent_host.sendCommand('pitch 0.5')
+    time.sleep(1)
+    agent_host.sendCommand('pitch 0')
+    agent_host.sendCommand('use 1')
+    agent_host.sendCommand('jump 1')
+    time.sleep(0.35)
+    agent_host.sendCommand('jump 0')
+    time.sleep(0.35)
+    load_location(world_state,location)
     ## finish putting
     agent_host.sendCommand('jump 0')
     agent_host.sendCommand('use 0')
     time.sleep(1)
-    
-    agent_host.sendCommand('movenorth 5')
-    load_location(world_state,location)
-    print(location)
-
+    print("////")
 # -- set up the mission -- #
 mission_file = './world/world1.xml'
 with open(mission_file, 'r') as f:
