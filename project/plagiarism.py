@@ -38,6 +38,7 @@ import random
 import sys
 import time
 import reader
+import math
 from mission.mission2 import missionFile
 
 if sys.version_info[0] == 2:
