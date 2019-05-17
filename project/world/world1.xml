@@ -9,7 +9,10 @@
               <ServerInitialConditions>
                 <Time>
                     <StartTime>1000</StartTime>
-                    <AllowPassageOfTime>false</AllowPassageOfTime>
+                    <AllowPassageOfTime>true</AllowPassageOfTime>
+                    <ModSettings>
+                        <MsPerTick>20</MsPerTick>
+                    </ModSettings>
                 </Time>
                 <Weather>clear</Weather>
               </ServerInitialConditions>
@@ -42,6 +45,7 @@
                       </ModifierList>
                   </DiscreteMovementCommands>
                   <ObservationFromFullStats/>
+                  <AbsoluteMovementCommands/>
                   <ContinuousMovementCommands turnSpeedDegs="180"/>
                   <InventoryCommands/>
                 </AgentHandlers>
