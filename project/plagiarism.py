@@ -38,6 +38,7 @@ import random
 import sys
 import time
 import reader
+import queue
 import math
 from mission.mission2 import missionFile
 
@@ -153,14 +154,13 @@ class TabQAgent(object):
         world_state = agent_host.getWorldState()
         while world_state.is_mission_running and current_blocks!=input:
             remaining_floor=reader.getOnZ(input,current_level)
+            exist_floor = []
             while len(remaining_floor)>0:
                 block = random.choice(list(remaining_floor.keys()))
                 print(block)
                 location = []
                 load_location(world_state,location)
                 err = move_to_target(location,block,world_state,current_blocks)
-                if err:
-                    print("Error")
                 del remaining_floor[block]
                 current_blocks[block]="stone"
             #current_r = 0
@@ -403,6 +403,51 @@ def move_to_target(location,target,world_state,exist_floor):
     time.sleep(1)
     print("////")
     return False
+    """           
+    x=target[0]-location['X']
+    y=target[2]-location['Y']
+    z=target[1]-location['Z']
+   
+    
+    
+    
+    print (x,y,z)
+    while(x>0.5):
+        agent_host.sendCommand('moveeast 1')
+        time.sleep(0.1)
+        x-=1
+    while(x<0.5):
+        agent_host.sendCommand('movewest 1')
+        time.sleep(0.1)
+        x+=1
+    while(z>0.5):
+        agent_host.sendCommand('movesouth 1')
+        time.sleep(0.1)
+        z-=1
+    while(z<0.5):
+        agent_host.sendCommand('movenorth 1')
+        time.sleep(0.1)
+        z+=1
+    if y!=0:
+        agent_host.sendCommand('pitch 0.5')
+        time.sleep(1)
+        agent_host.sendCommand('pitch 0')
+        agent_host.sendCommand('use 1')
+        #while location['Y'] >=target[2]+0.1 or location['Y'] <=target[2]-0.1:
+        agent_host.sendCommand('jump 1')
+        time.sleep(0.35)
+        agent_host.sendCommand('jump 0')
+        time.sleep(0.35)
+        load_location(world_state,location)
+    ## finish putting
+    agent_host.sendCommand('jump 0')
+    agent_host.sendCommand('use 0')
+    time.sleep(1)
+    
+    agent_host.sendCommand('movenorth 5')
+    load_location(world_state,location)
+    print(location)
+    """
 # -- set up the mission -- #
 mission_file = './world/world1.xml'
 with open(mission_file, 'r') as f:
