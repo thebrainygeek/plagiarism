@@ -1,5 +1,5 @@
 import math
-
+import reader
 #figure out a list of actions in order to remove the next block on the same level
 #input: final grid, current position
 def getNextActions(goal_grid, curPos):
@@ -10,7 +10,7 @@ def getNextActions(goal_grid, curPos):
 
 def findClosest(goal_grid, curPos):
     dist = 1
-    blocks = getBlocksSameFloor(goal_grid, curPos[0]) #I think Aditya is writing this command
+    blocks = getOnY(goal_grid, curPos[0]) 
     while(True):
         for x, y in [(dist, 0), (-dist, 0), (dist, dist), (dist, -dist), (0, dist), (0, -dist), (-dist, dist), (-dist, -dist)]:
             curChecking = (curPos[1] + x, curPos[2] + y)
