@@ -335,7 +335,6 @@ def move_to_target(location,target,world_state,exist_floor):
     print(source)
     print("dest")
     print(dest)
-    print 
     blockset = set()
     blockset.add(source)
     q = queue.Queue()
