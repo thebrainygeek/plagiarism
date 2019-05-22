@@ -17,4 +17,4 @@ The more detailed version of this is included in the Status section of the site,
 
 [Source Code][refCode]
 
-[redCode]:https://github.com/thebrainygeek/plagiarism
+[redCode]: https://github.com/thebrainygeek/plagiarism
