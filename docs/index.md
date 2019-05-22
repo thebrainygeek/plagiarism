@@ -9,7 +9,7 @@ This is the project for the Plagiarism project, based off Malmo-Minecraft fro UC
 
 The goal of the Plagiarism project is to automatically construct the building with the most efficient way.
 
-(Add an image here)
+![Plagiarism image](https://raw.githubusercontent.com/thebrainygeek/plagiarism/master/docs/images/test_image.jpg)
 
 The more detailed version of this is included in the Status section of the site, but basically: 
 - A structure's data is passed to the agent.
