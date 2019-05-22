@@ -40,13 +40,35 @@ import time
 import reader
 import queue
 import math
+from timeit import default_timer as timer
 from mission.mission2 import missionFile
+from actions import getCost
 
 if sys.version_info[0] == 2:
     # Workaround for https://github.com/PythonCharmers/python-future/issues/262
     import Tkinter as tk
 else:
     import tkinter as tk
+def teleport(agent_host, teleport_x, teleport_y, teleport_z):
+    """Directly teleport to a specific position."""
+    tp_command = "tp " + str(teleport_x) + " " + str(teleport_y) + " " + str(teleport_z)
+    print(tp_command)
+    agent_host.sendCommand(tp_command)
+
+    # time.sleep(1)
+    # good_frame = False
+    # start = timer()
+    # while not good_frame:
+    #     world_state = agent_host.getWorldState()
+    #     if not world_state.is_mission_running:
+    #         print("Mission ended prematurely - error.")
+    #         exit(1)
+    #     if not good_frame and world_state.number_of_video_frames_since_last_state > 0:
+    #         frame_x = world_state.video_frames[-1].xPos
+    #         frame_z = world_state.video_frames[-1].zPos
+    #         if math.fabs(frame_x - teleport_x) < 0.001 and math.fabs(frame_z - teleport_z) < 0.001:
+    #             good_frame = True
+    #             end_frame = timer()
 
 class TabQAgent(object):
     """Tabular Q-learning agent for discrete state/action spaces."""
@@ -141,7 +163,7 @@ class TabQAgent(object):
     def run(self, agent_host):
         """run the agent on the world"""
 
-        total_reward = 0
+        total_cost = 0
         
         self.prev_s = None
         self.prev_a = None
@@ -156,64 +178,17 @@ class TabQAgent(object):
             remaining_floor=reader.getOnZ(input,current_level)
             exist_floor = []
             while len(remaining_floor)>0:
-                block = random.choice(list(remaining_floor.keys()))
-                print(block)
+                target = random.choice(list(remaining_floor.keys()))
+                print(target)
                 location = []
                 load_location(world_state,location)
-                err = move_to_target(location,block,world_state,current_blocks)
-                del remaining_floor[block]
-                current_blocks[block]="stone"
-            #current_r = 0
-            #while 
-            # if is_first_action:
-            #     # wait until have received a valid observation
-            #     while True:
-            #         time.sleep(0.1)
-            #         world_state = agent_host.getWorldState()
-            #         for error in world_state.errors:
-            #             self.logger.error("Error: %s" % error.text)
-            #         for reward in world_state.rewards:
-            #             current_r += reward.getValue()
-            #         if world_state.is_mission_running and len(world_state.observations)>0 and not world_state.observations[-1].text=="{}":
-            #             total_reward += self.act(world_state, agent_host, current_r)
-            #             break
-            #         if not world_state.is_mission_running:
-            #             break
-            #     is_first_action = False
-            # else:
-            #     # wait for non-zero reward
-            #     while world_state.is_mission_running and current_r == 0:
-            #         time.sleep(0.1)
-            #         world_state = agent_host.getWorldState()
-            #         for error in world_state.errors:
-            #             self.logger.error("Error: %s" % error.text)
-            #         for reward in world_state.rewards:
-            #             current_r += reward.getValue()
-            #     # allow time to stabilise after action
-            #     while True:
-            #         time.sleep(0.1)
-            #         world_state = agent_host.getWorldState()
-            #         for error in world_state.errors:
-            #             self.logger.error("Error: %s" % error.text)
-            #         for reward in world_state.rewards:
-            #             current_r += reward.getValue()
-            #         if world_state.is_mission_running and len(world_state.observations)>0 and not world_state.observations[-1].text=="{}":
-            #             total_reward += self.act(world_state, agent_host, current_r)
-            #             break
-            #         if not world_state.is_mission_running:
-            #             break
-
-        # process final reward
-        #self.logger.debug("Final reward: %d" % current_r)
-        #   total_reward += current_r
-
-        # update Q values
-        #if self.prev_s is not None and self.prev_a is not None:
-        #    self.updateQTableFromTerminatingState( current_r )
-            
-        #self.drawQ()
-    
-        return total_reward
+                move_to_target(location,target,world_state,current_blocks)
+                del remaining_floor[target]
+                current_blocks[target]="stone"
+                total_cost += getCost([location[0],location[1],location[2]], [target[0]-0.5, target[1]-0.5, target[2]], None)
+                print("COST IS",total_cost)
+            current_level+=1
+        return total_cost
         
     def drawQ( self, curr_x=None, curr_y=None ):
         scale = 40
@@ -309,93 +284,22 @@ def move_to_target(location,target,world_state,exist_floor):
     location[0] = math.ceil(location[0])
     location[1] = math.ceil(location[1])
     location[2] = math.ceil(location[2])
-    ## eastmost,westmost, northmost, southmost
     print("location:")
     print(location)
     print("target:")
     print(target)
     print("exist floor:")
     print(exist_floor)
-    boundary = [min(target[0],location[0]),max(target[0],location[0]),
-                min(target[1],location[1]),max(target[1],location[1])]
-    #print (boundary)
-    roadblocks = {}
-    for block in exist_floor:
-        boundary[0] = min(boundary[0],block[0])
-        boundary[1] = max(boundary[1],block[0])
-        boundary[2] = min(boundary[2],block[2])
-        boundary[3] = max(boundary[3],block[2])
-        
-    boundary[0]-=1
-    boundary[1]+=1
-    boundary[2]-=1
-    boundary[3]+=1
-    x = boundary[1]-boundary[0]+1
-    y = boundary[3]-boundary[2]+1
-    size = x*y
-    prev_block = [-1] * (size)
-    source = (location[0]-boundary[0])+x*(location[1]-boundary[2])
-    dest = (target[0]-boundary[0])+x*(target[1]-boundary[2])
-    for block in exist_floor:
-        if block[0]!=location[0] or block[1]!=location[1]:
-            roadblocks[(block[0]-boundary[0])+x*(block[1]-boundary[2])]="stone"
-    print("source:")
-    print(source)
-    print("dest")
-    print(dest)  
-    blockset = set()
-    blockset.add(source)
-    q = queue.Queue()
-    q.put(source)
-    reach_flag = False
-    print (roadblocks)
-    while not q.empty():
-        cur = q.get()
-        if cur == dest:
-            err_flag = False
-            break
-        if cur not in roadblocks:
-            blockset.add(cur)
-            if (cur % x) != 0 and not cur-1 in blockset:
-                q.put(cur-1)
-                prev_block[cur-1] = cur
-            if (cur % x) != x-1 and not cur+1 in blockset:
-                q.put(cur+1)
-                prev_block[cur+1] = cur
-            if cur >= x and not cur-x in blockset:
-                q.put(cur-x)
-                prev_block[cur-x] = cur
-            if cur < size-x and not cur+x in blockset:
-                q.put(cur+x)
-                prev_block[cur+x] = cur
-    if err_flag :
-        return True
-    #print(prev_block)
-    path = []
-    path.append(dest)
-    end = dest
-    print (prev_block)
-    while end !=source:
-        path.append(prev_block[end])
-        end = prev_block[end]
-        if end != -1:
-            print (end)
-    path.reverse()
-    action_list = extract_action_list_from_path(path,x)
-    print("action list:")
-    print(action_list)
-    action_index = 0
-    while action_index < len(action_list):
-        agent_host.sendCommand(action_list[action_index])
-        action_index += 1
+    teleport(agent_host, target[0]-0.5, target[2], target[1]-0.5)
+
     agent_host.sendCommand('pitch 0.5')
-    time.sleep(1)
+    time.sleep(0.4)
     agent_host.sendCommand('pitch 0')
     agent_host.sendCommand('use 1')
     agent_host.sendCommand('jump 1')
-    time.sleep(0.35)
+    time.sleep(0.1)
     agent_host.sendCommand('jump 0')
-    time.sleep(0.35)
+    time.sleep(0.1)
     load_location(world_state,location)
     ## finish putting
     agent_host.sendCommand('jump 0')
@@ -403,52 +307,7 @@ def move_to_target(location,target,world_state,exist_floor):
     time.sleep(1)
     print("////")
     return False
-    """           
-    x=target[0]-location['X']
-    y=target[2]-location['Y']
-    z=target[1]-location['Z']
-   
-    
-    
-    
-    print (x,y,z)
-    while(x>0.5):
-        agent_host.sendCommand('moveeast 1')
-        time.sleep(0.1)
-        x-=1
-    while(x<0.5):
-        agent_host.sendCommand('movewest 1')
-        time.sleep(0.1)
-        x+=1
-    while(z>0.5):
-        agent_host.sendCommand('movesouth 1')
-        time.sleep(0.1)
-        z-=1
-    while(z<0.5):
-        agent_host.sendCommand('movenorth 1')
-        time.sleep(0.1)
-        z+=1
-    if y!=0:
-        agent_host.sendCommand('pitch 0.5')
-        time.sleep(1)
-        agent_host.sendCommand('pitch 0')
-        agent_host.sendCommand('use 1')
-        #while location['Y'] >=target[2]+0.1 or location['Y'] <=target[2]-0.1:
-        agent_host.sendCommand('jump 1')
-        time.sleep(0.35)
-        agent_host.sendCommand('jump 0')
-        time.sleep(0.35)
-        load_location(world_state,location)
-    ## finish putting
-    agent_host.sendCommand('jump 0')
-    agent_host.sendCommand('use 0')
-    time.sleep(1)
-    
-    agent_host.sendCommand('movenorth 5')
-    load_location(world_state,location)
-    print(location)
-    """
-# -- set up the mission -- #
+
 mission_file = './world/world1.xml'
 with open(mission_file, 'r') as f:
     print("Loading mission from %s" % mission_file)
@@ -504,3 +363,5 @@ print("Done.")
 print()
 print("Cumulative rewards for all %d runs:" % num_repeats)
 print(cumulative_rewards)
+
+

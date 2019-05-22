@@ -24,6 +24,8 @@ def checkInGrid(goal_grid, check):
 
 def getCost(pos1, pos2, goal_grid):
     # make better function later
+    print("IN",pos1,pos2)
+    print ("OUT",math.sqrt(abs(pos1[0] - pos2[0])**2 + abs(pos1[1] - pos2[1])**2 + abs(pos1[2] - pos2[2])**2 ))
     return math.sqrt(abs(pos1[0] - pos2[0])**2 + abs(pos1[1] - pos2[1])**2 + abs(pos1[2] - pos2[2])**2 )
 
 def minDistance(dist, goal, sptSet): 
