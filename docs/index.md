@@ -15,6 +15,8 @@ The more detailed version of this is included in the Status section of the site,
 - A structure's data is passed to the agent.
 - Agent will build it with the most efficient way after tring hundreds or thousands times. 
 
-[Source Code][refCode]
+[Source Code][refCode] / [Detailed Doc][refDoc] / [Pictures][refPictures]
 
-[redCode]: https://github.com/thebrainygeek/plagiarism
+[refCode]: https://github.com/HiroIshikawa/speech2craft/tree/master/experiment/all
+[refDoc]: https://github.com/HiroIshikawa/speech2craft/tree/master/docs/final.md
+[refPictures]: https://github.com/HiroIshikawa/speech2craft/tree/master/docs/imgs
