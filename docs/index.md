@@ -17,6 +17,6 @@ The more detailed version of this is included in the Status section of the site,
 
 [Source Code][refCode] / [Detailed Doc][refDoc] / [Pictures][refPictures]
 
-[refCode]: https://github.com/HiroIshikawa/speech2craft/tree/master/experiment/all
-[refDoc]: https://github.com/HiroIshikawa/speech2craft/tree/master/docs/final.md
-[refPictures]: https://github.com/HiroIshikawa/speech2craft/tree/master/docs/imgs
+[refCode]: https://github.com/thebrainygeek/plagiarism/tree/master/project
+[refDoc]: https://github.com/thebrainygeek/plagiarism/tree/master/docs
+[refPictures]: https://github.com/thebrainygeek/plagiarism/tree/master/docs/images
