@@ -13,7 +13,7 @@ The goal of the Plagiarism project is to automatically construct the building wi
 
 The more detailed version of this is included in the Status section of the site, but basically: 
 - A structure's data is passed to the agent.
-- Agent will build it with the most efficient way after tring hundred or thousands of times. 
+- Agent will build it with the most efficient way after tring hundreds or thousands times. 
 
 Source code: https://github.com/thebrainygeek/plagiarism
 
