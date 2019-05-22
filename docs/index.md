@@ -15,10 +15,6 @@ The more detailed version of this is included in the Status section of the site,
 - A structure's data is passed to the agent.
 - Agent will build it with the most efficient way after tring hundreds or thousands times. 
 
-Source code: https://github.com/thebrainygeek/plagiarism
+[Source Code][refCode]
 
-Reports:
-
-- [Proposal](proposal.html)
-- [Status](status.html)
-- [Final](final.html)
+[redCode]:https://github.com/thebrainygeek/plagiarism
