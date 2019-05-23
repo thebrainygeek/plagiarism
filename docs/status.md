@@ -3,20 +3,20 @@ layout: default
 title:  Status
 ---
 
-#  Project Summary
+##  Project Summary
 
-Our project is the Minecraft Plagiarizer wherein our AI algorithm will attempt to provide an order to build a Minecraft structure based on the input structure provided to it. The AI will try to determine, through artificial intelligence, a possible order to build the structure which may be impossible for brute-force since it is easy for the agent to not be able to progress if it is built in the wrong order. The algorithm needs to find an order that does not block the agent from building the rest of the structure after putting down a block as it builds the structure and creates a structure in the least total distance traveled. 
-The input will be a 3-dimensional array of types of blocks that need to be placed for the final structure. The output will be the order in which the agent needs to place or remove the blocks to correctly build the given structure.
+Our project, the Minecraft Plagiarizer, compares efficiency of different methods to build an input structure provided to it. The efficiency for our project is determined by minimizing the distance the agent has to travel while building the provided structure.
+The input is a dictionary where keys are the locations for the blocks and they correspond the type of block that needs to be placed. The output is the cost to build the structure, where cost is the total distance travelled by the agent.
 
-# Approach
+## Approach
 
-Currently, we use Dijkstra's algorithm in order to figure out the closest blocks to our position and then use that to figure out the order of the placement of blocks. 
+Currently, we use modified Dijkstra's algorithm in order to figure out the closest blocks to our position and then use that to figure out the order of the placement of blocks. We understand the shortfalls with Dijkstra's for our problem but we use it as our stepping stone as we progress towards utilizing more complex concepts like the Travelling Salesman.
 
 Inputs
 * Current position
 * Dictionary of all of the blocks that need to be placed
     .. * key: tuple of the location of the block
-    .. * value: type of block that needs to be placed (Currently we use "stone" type only)
+    .. * value: type of block that needs to be placed
 
 
 Output
@@ -27,13 +27,13 @@ Algorithm
     Cost Function: distance between the block that needs to be placed and the current position
     
 
-# Evaluation
+## Evaluation
 
 Missions
 1. Two random separated blocks on the ground floor
-2. Two separated several layer three blocks long towers  <-- please change later with mission 4
-3. One three level one block long tower
-4. One separated several layer three blocks long towers
+2. One moderately tall tower, 1 block wide
+3. Two seperate structures, each multiple blocks tall
+4. The front facade of a house
 
 Cost Function: distance between the block that needs to be placed and the current position
 
@@ -53,7 +53,7 @@ Insert chart of comparisons of time for all missions
 Although this works well, one of the issues with our algorithm is that since it compares everything from the central block, the list is radially outward. This does not make much of a difference in the smaller structures, but in larger ones it has the potential to be a significant source of inefficiency as the blocks chosen will be on an outward circle over time, and will have to move a lot to go across the center of the system. This issue occurs in 3D space, which makes everything all the odder.
 
 
-# Remaining Goals and Challenges
+## Remaining Goals and Challenges
 We would like to improve our current algorithm, perhaps by using the [Traveling Salesman](https://en.wikipedia.org/wiki/Travelling_salesman_problem) Problem as a guide. Perhaps we can give preference to staying on the same floor, but this would need to be tested.
 
 One major assumption that we have made is that since we are only building towers, if there is a block that is supposed to be placed we can assume that all the blocks below it need to be placed.
@@ -62,6 +62,6 @@ An issue with our output is that currently sometimes it creates double blocks. A
 
 We would like to run this algorithm on much taller, larger, and more diverse buildings that allow greater room for error.
 
-# Resources Used
+## Resources Used
 
 We looked towards Campuswire for solutions to many of our problems.
