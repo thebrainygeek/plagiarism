@@ -23,10 +23,12 @@ Inputs
 Process
 We are using Dijkstra's algorithm, which looks at all the blocks and trys to figure out which blocks are closest to the current location, and which are further, and places them in order according to our cost function. The cost function is the distance in 3D space between the block that needs to be placed and the current location.
 
-`for v in range(length): 
+```python
+for v in range(length): 
     if graph[u][v] > 0 and sptSet[v] == False and dist[v] > dist[u] + graph[u][v]:
         dist[v] = dist[u] + graph[u][v] 
-    finalList.append(startingGoal[u])`
+    finalList.append(startingGoal[u])
+```
 
 
 Output
@@ -43,13 +45,15 @@ Missions
 4. Two separate towers, one being taller than the other
 5. The front facade of a house
 
-![Mission 4 House](https://raw.githubusercontent.com/thebrainygeek/plagiarism/master/docs/images/image1.png)
+![Mission 4 House](https://raw.githubusercontent.com/thebrainygeek/plagiarism/master/docs/images/image1.PNG)
 
 Cost Function
 Distance between two points
 
-`def getCost(pos1, pos2, goal_grid):
-    return math.sqrt(abs(pos1[0] - pos2[0])**2 + abs(pos1[1] - pos2[1])**2 + abs(pos1[2] - pos2[2])**2 )`
+```python
+def getCost(pos1, pos2, goal_grid):
+    return math.sqrt(abs(pos1[0] - pos2[0])**2 + abs(pos1[1] - pos2[1])**2 + abs(pos1[2] - pos2[2])**2 )
+```
 
 Quantitative Efficiency
 We use the total distance traveled, or the sum of all of the distances traveled to place all of the blocks, in order to determine how efficient our algorithm is. 
@@ -57,10 +61,11 @@ We use the total distance traveled, or the sum of all of the distances traveled 
 We compare the total distance traveled to that of a **smart random algorithm**. This algorithm works bottom up, from the bottom layer to the top. Within each layer it chooses the blocks completely randomly.
 
 | Mission Number| Random Algorithm | Our Algorithm  |
-| ------------- |:----------------:| --------------:|
+| ------------- |:----------------:| :-------------:|
 | 1             | 6.78             | 6.78           |
-| col 2 is      | centered      |   $12 |
-| zebra stripes | are neat      |    $1 |
+| 2             | 9.89             | 9.89           |
+| 3             | 121.4            |      100.9     |
+| 4             | 276.9            |      116.6     |
 
 **Dijkstra's algorithm:** Although this works well, one of the issues with our algorithm is that since it compares everything from the central block, the list is radially outward. This does not make much of a difference in the smaller structures, but in larger ones it has the potential to be a significant source of inefficiency as the blocks chosen will be on an outward circle over time, and will have to move a lot to go across the center of the system. This issue occurs in 3D space, which makes everything all the odder.
 
