@@ -5,13 +5,9 @@ title:  Home
 
 # Plagiarism
 
-The goal of the Plagiarism project is to automatically construct a building with the least amount of distance traveled.
+The goal of the Plagiarism project is to construct the minecraft structure provided as input while minimising the distance traveled to construct it. A brute-force/random solution to the problem would involve the agent travelling between blocks in an inefficient and time consuming order. Our goal is to use known Graph Algorithms to find the best route for the agent to follow. 
 
 ![Large sample house](https://raw.githubusercontent.com/thebrainygeek/plagiarism/master/docs/images/minecraft_big_house.jpg)
-
-The more detailed version of this is included in the other tabs of the site, but basically: 
-- A structure's data is passed to the agent.
-- The agent determines the order of the blocks that should be placed to reduce the length of the agent traveled as it is building the structure
 
 [Source Code][refCode] / [Detailed Doc][refDoc] / [Pictures][refPictures]
 
