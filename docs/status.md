@@ -17,8 +17,8 @@ Although this algorithm is significantly better than the random case, we underst
 Inputs
 * Current position
 * Dictionary of all of the blocks that need to be placed
-..* key: tuple of the location of the block
-..* value: type of block that needs to be placed
+* key: tuple of the location of the block
+* value: type of block that needs to be placed
 
 Process
 We are using Dijkstra's algorithm, which looks at all the blocks and trys to figure out which blocks are closest to the current location, and which are further, and places them in order according to our cost function. The cost function is the distance in 3D space between the block that needs to be placed and the current location.
@@ -39,15 +39,15 @@ Output
 ## Evaluation
 
 Missions
-1. Two separated single blocks on the ground floor
-2. Two separate towers, one being wider than the other, both four layers tall
-3. Three block tall single block wide tower
-4. Two separate towers, one being taller than the other
-5. The front facade of a house
+1. 2 separated single blocks on the ground floor
+2. 3 block tall 1 block wide tower
+3. Front facade of a house
+4. 2 separate structures
+5. 7x7 hollow structure
 
-![Mission 4 House](https://raw.githubusercontent.com/thebrainygeek/plagiarism/master/docs/images/image1.PNG)
+![Mission 4 Structure](https://raw.githubusercontent.com/thebrainygeek/plagiarism/master/docs/images/image1.PNG)
 
-Cost Function
+**Cost Function**
 Distance between two points
 
 ```python
@@ -55,19 +55,28 @@ def getCost(pos1, pos2, goal_grid):
     return math.sqrt(abs(pos1[0] - pos2[0])**2 + abs(pos1[1] - pos2[1])**2 + abs(pos1[2] - pos2[2])**2 )
 ```
 
-Quantitative Efficiency
+**Quantitative Efficiency**
 We use the total distance traveled, or the sum of all of the distances traveled to place all of the blocks, in order to determine how efficient our algorithm is. 
 
-We compare the total distance traveled to that of a **smart random algorithm**. This algorithm works from the bottom layer upward. Within each layer it chooses the blocks completely randomly.
+We compare the total distance traveled to that of a **smart random algorithm**. This algorithm starts from the bottom layer and works upward. Within each layer it chooses the blocks completely randomly.
 
-| Mission Number| Random Algorithm | Our Algorithm  |
-| ------------- | ---------------- | ------------- |
-| 1             | 6.78             | 6.78           |
-| 2             | 9.89             | 9.89           |
-| 3             | 121.4            |      100.9     |
-| 4             | 276.9            |      116.6     |
+**Missions**
+Mission Number: random mission time vs our mission time (percentage difference between the two times)
+1: 6.78 vs 6.78 (0%)
+2: 9.89 vs 9.89 (0%)
+3: 121.4 vs 100.9 (-16.88633%)
+4: 276.9 vs 116.6 (-57.8909%)
+5: 462.4 vs 344.37 (-25.5255%)
 
-**Dijkstra's algorithm:** Although this works well, one of the issues with our algorithm is that since it compares everything from the central block, the list is radially outward. This does not make much of a difference in the smaller structures, but in larger ones it has the potential to be a significant source of inefficiency as the blocks chosen will be on an outward circle over time, and will have to move a lot to go across the center of the system. This issue occurs in 3D space, which makes everything all the odder.
+| Mission Number | Smart Random | Ours | % Difference |
+| --------- | ------- | ------- | ------- |
+| 1 | 6.78 | 6.78 | 0% |
+| 2 | 9.89 | 9.89 | 0% |
+
+For the really small towers there are not many orders that can be made, so the algorithms work the same. Then, for slightly larger structures we can see our algorithm shine. For larger structures, the algorithm does not work as well because of the issue stated below.
+
+**Dijkstra's algorithm:** 
+The biggest issue with our algorithm is that since the algorithm compares everything from the central block, the list is radially outward. This does not make much of a difference in the smaller structures, but in larger ones it has the potential to be a significant source of inefficiency as the blocks chosen will be on an outward circle over time, and will have to move a lot to go across the center of the system. This issue occurs in 3D space, which makes everything all the odder.
 
 
 ## Remaining Goals and Challenges
@@ -77,7 +86,7 @@ One major assumption that we have made is that if there is a block that is suppo
 
 An issue with our solution is that currently sometimes it creates double blocks. Although this is issue is greatly reduced from the earlier issue where it would sometimes not place the block at the right place, this is something we would like to fix.
 
-We would like to run this algorithm on much taller, larger, and more diverse buildings that allow greater room for error.
+We would like to run this algorithm on much taller, larger, and more diverse buildings.
 
 ## Resources Used
 
