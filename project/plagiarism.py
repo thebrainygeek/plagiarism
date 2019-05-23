@@ -13,7 +13,7 @@ import sys
 import time
 import reader
 import math
-from mission.mission2 import missionFile
+from mission.mission5 import missionFile
 from actions import getCost, listActions
 
 if sys.version_info[0] == 2:
@@ -28,7 +28,7 @@ def teleport(agent_host, teleport_x, teleport_y, teleport_z):
     agent_host.sendCommand(tp_command)
 
 
-MODE = "DIK"
+MODE = "RANDOM"
 
 class PlagiarismAgent(object):
     """Tabular Q-learning agent for discrete state/action spaces."""
@@ -67,9 +67,10 @@ class PlagiarismAgent(object):
                     print("Chosen Block",target)
                     location = []
                     load_location(world_state, location)
-                    move_to_target(location, target, world_state, current_blocks)
+                    block_type = input[target]
+                    move_to_target(location, target, world_state, current_blocks, block_type)
                     del remaining_floor[target]
-                    current_blocks[target] = "stone"
+                    current_blocks[target] = block_type
                     total_cost += getCost([location[0], location[1], location[2]],
                                           [target[0] - 0.5, target[1] - 0.5, target[2]], None)
                     print("COST IS", total_cost, "\n")
@@ -84,9 +85,10 @@ class PlagiarismAgent(object):
                 print("Chosen Block",target)
                 location = []
                 load_location(world_state, location)
-                move_to_target(location, target, world_state, current_blocks)
+                block_type = input[target]
+                move_to_target(location, target, world_state, current_blocks, block_type)
                 del actions[0]
-                current_blocks[target] = "stone"
+                current_blocks[target] = block_type
                 total_cost += getCost([location[0], location[1], location[2]],
                                       [target[0] - 0.5, target[1] - 0.5, target[2]], None)
                 print("COST IS", total_cost, "\n")
@@ -129,7 +131,7 @@ def load_location(world_state, location):
             location.append(observations[u'YPos'])
             break
 
-def move_to_target(location, target, world_state, exist_floor):
+def move_to_target(location, target, world_state, exist_floor, block_type):
     location[0] = math.ceil(location[0])
     location[1] = math.ceil(location[1])
     location[2] = math.ceil(location[2])
@@ -138,6 +140,10 @@ def move_to_target(location, target, world_state, exist_floor):
     agent_host.sendCommand('pitch 0.5')
     time.sleep(1)
     agent_host.sendCommand('pitch 0')
+    blocks = ["stone", "glass", "brick_block", "emerald_ore"]
+    i = blocks.index(block_type) + 1
+    agent_host.sendCommand('hotbar.'+str(i)+' 1')
+    agent_host.sendCommand('hotbar.'+str(i)+' 0')
     agent_host.sendCommand('use 1')
     agent_host.sendCommand('jump 1')
     time.sleep(0.2)
