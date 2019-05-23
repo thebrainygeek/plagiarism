@@ -61,17 +61,14 @@ We use the total distance traveled, or the sum of all of the distances traveled 
 We compare the total distance traveled to that of a **smart random algorithm**. This algorithm starts from the bottom layer and works upward. Within each layer it chooses the blocks completely randomly.
 
 **Missions**
-Mission Number: random mission time vs our mission time (percentage difference between the two times)
-1: 6.78 vs 6.78 (0%)
-2: 9.89 vs 9.89 (0%)
-3: 121.4 vs 100.9 (-16.88633%)
-4: 276.9 vs 116.6 (-57.8909%)
-5: 462.4 vs 344.37 (-25.5255%)
 
 | Mission Number | Smart Random | Ours | % Difference |
 | --------- | ------- | ------- | ------- |
 | 1 | 6.78 | 6.78 | 0% |
 | 2 | 9.89 | 9.89 | 0% |
+| 3 | 121.4 | 100.9 | -16.88633% |
+| 4 | 276.9 | 116.6 | -57.8909% |
+| 5 | 462.4 | 344.37 | -25.5255% | 
 
 For the really small towers there are not many orders that can be made, so the algorithms work the same. Then, for slightly larger structures we can see our algorithm shine. For larger structures, the algorithm does not work as well because of the issue stated below.
 
