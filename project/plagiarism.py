@@ -13,7 +13,7 @@ import sys
 import time
 import reader
 import math
-from mission.mission5 import missionFile
+from mission.mission4 import missionFile
 from actions import getCost, listActions
 
 if sys.version_info[0] == 2:
@@ -28,7 +28,7 @@ def teleport(agent_host, teleport_x, teleport_y, teleport_z):
     agent_host.sendCommand(tp_command)
 
 
-MODE = "RANDOM"
+MODE = "DIK"
 
 class PlagiarismAgent(object):
     """Tabular Q-learning agent for discrete state/action spaces."""
@@ -131,12 +131,12 @@ def load_location(world_state, location):
             location.append(observations[u'YPos'])
             break
 
+
 def move_to_target(location, target, world_state, exist_floor, block_type):
     location[0] = math.ceil(location[0])
     location[1] = math.ceil(location[1])
     location[2] = math.ceil(location[2])
     teleport(agent_host, target[0] - 0.5, target[2], target[1] - 0.5)
-
     agent_host.sendCommand('pitch 0.5')
     time.sleep(1)
     agent_host.sendCommand('pitch 0')
