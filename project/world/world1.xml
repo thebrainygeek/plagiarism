@@ -10,9 +10,6 @@
                 <Time>
                     <StartTime>1000</StartTime>
                     <AllowPassageOfTime>true</AllowPassageOfTime>
-                    <ModSettings>
-                        <MsPerTick>20</MsPerTick>
-                    </ModSettings>
                 </Time>
                 <Weather>clear</Weather>
               </ServerInitialConditions>

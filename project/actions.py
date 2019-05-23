@@ -18,19 +18,18 @@ def findClosest(goal_grid, curPos):
                 if(blocks.contains(curChecking)):
                     return curChecking
         dist += 1
-
 def checkInGrid(goal_grid, check):
     return (check[1] > 0) and (check[2] > 0) and (check[1] < goal_grid[0].length) and (check[2] < goal_grid[0][0].length)
 
 def getCost(pos1, pos2, goal_grid):
-    # make better function later
-    print("IN",pos1,pos2)
-    print ("OUT",math.sqrt(abs(pos1[0] - pos2[0])**2 + abs(pos1[1] - pos2[1])**2 + abs(pos1[2] - pos2[2])**2 ))
     return math.sqrt(abs(pos1[0] - pos2[0])**2 + abs(pos1[1] - pos2[1])**2 + abs(pos1[2] - pos2[2])**2 )
+#
+# def getCostWeighted(pos1, pos2, goal_grid):
+#     return (math.sqrt(abs(pos1[0] - pos2[0])**2 + abs(pos1[1] - pos2[1])**2 + abs(pos1[2] - pos2[2])**2))+(1 if (pos1[2]!=pos2[2]) else 0)
 
 def minDistance(dist, goal, sptSet): 
         mini = float('inf')
-        print(dist)
+        # print(dist)
         length = len(goal)
         min_index = 0
         for v in range(length): 
@@ -42,7 +41,7 @@ def minDistance(dist, goal, sptSet):
 def listActions(curPos, goal_grid):
     startingGoal = list(goal_grid.copy())
     startingGoal.insert(0, curPos)
-    graph = [[getCost(pos1, pos2, goal_grid) for pos1 in startingGoal]  for pos2 in startingGoal] 
+    graph = [[getCost(pos1, pos2, goal_grid) for pos1 in startingGoal]  for pos2 in startingGoal]
     length = len(startingGoal)
     sptSet = [False] * length
     dist = [float('inf')] * length
