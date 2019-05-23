@@ -25,9 +25,9 @@
                     <Placement x="0.5" y="227.0" z="0.5" yaw="90"/>
                     <Inventory>
                         <InventoryItem slot="0" type="stone" quantity="64"/>
-                        <InventoryItem slot="1" type="stone" quantity="64"/>
-                        <InventoryItem slot="2" type="stone" quantity="64"/>
-                        <InventoryItem slot="3" type="stone" quantity="64"/>
+                        <InventoryItem slot="1" type="glass" quantity="64"/>
+                        <InventoryItem slot="2" type="brick_block" quantity="64"/>
+                        <InventoryItem slot="3" type="emerald_ore" quantity="64"/>
                         <InventoryItem slot="4" type="stone" quantity="64"/>
                         <InventoryItem slot="5" type="stone" quantity="64"/>
                         <InventoryItem slot="6" type="stone" quantity="64"/>
