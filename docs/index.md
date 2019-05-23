@@ -5,15 +5,13 @@ title:  Home
 
 # Plagiarism
 
-This is the project for the Plagiarism project, based off Malmo-Minecraft fro UCI's CS175 AI project!
+The goal of the Plagiarism project is to automatically construct a building with the least amount of distance traveled.
 
-The goal of the Plagiarism project is to automatically construct the building with the most efficient way.
+![Large sample house](https://raw.githubusercontent.com/thebrainygeek/plagiarism/master/docs/images/minecraft_big_house.jpg)
 
-![Plagiarism image](https://raw.githubusercontent.com/thebrainygeek/plagiarism/master/docs/images/test_image.jpg)
-
-The more detailed version of this is included in the Status section of the site, but basically: 
+The more detailed version of this is included in the other tabs of the site, but basically: 
 - A structure's data is passed to the agent.
-- Agent will build it with the most efficient way after tring hundreds or thousands times. 
+- The agent determines the order of the blocks that should be placed to reduce the length of the agent traveled as it is building the structure
 
 [Source Code][refCode] / [Detailed Doc][refDoc] / [Pictures][refPictures]
 
