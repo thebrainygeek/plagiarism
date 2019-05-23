@@ -10,7 +10,7 @@ The input will be a 3-dimensional array of types of blocks that need to be place
 
 ## Approach
 
-Currently, we use Dijkstra's algorithm in order to figure out the closest blocks to our position and then use that to figure out the placement of blocks. 
+Currently, we use **Dijkstra's algorithm** in order to figure out the closest blocks to our position and then use that to figure out the placement of blocks. 
 
 Inputs
 * Current position
@@ -41,7 +41,7 @@ total distance traveled (sum of all of the distances traveled to place all of th
 
 
 ## Remaining Goals and Challenges
-We would like to improve our current algorithm, perhaps by using the [Traveling Salesman](https://en.wikipedia.org/wiki/Travelling_salesman_problem) Problem as a guide. This would fix the issue that we currently h
+We would like to improve our current algorithm, perhaps by using the [Traveling Salesman](https://en.wikipedia.org/wiki/Travelling_salesman_problem) Problem as a guide. This would fix the issue that we currently have.
 
 One major assumption that we have made is that since we are only building towers, if there is a block that is supposed to be placed we can assume that all the blocks below it need to be placed.
 
