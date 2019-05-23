@@ -24,9 +24,9 @@ def checkInGrid(goal_grid, check):
 
 def getCost(pos1, pos2, goal_grid):
     return math.sqrt(abs(pos1[0] - pos2[0])**2 + abs(pos1[1] - pos2[1])**2 + abs(pos1[2] - pos2[2])**2 )
-
-def getCostWeighted(pos1, pos2, goal_grid):
-    return (math.sqrt(abs(pos1[0] - pos2[0])**2 + abs(pos1[1] - pos2[1])**2 + abs(pos1[2] - pos2[2])**2))+(1 if (pos1[2]!=pos2[2]) else 0)
+#
+# def getCostWeighted(pos1, pos2, goal_grid):
+#     return (math.sqrt(abs(pos1[0] - pos2[0])**2 + abs(pos1[1] - pos2[1])**2 + abs(pos1[2] - pos2[2])**2))+(1 if (pos1[2]!=pos2[2]) else 0)
 
 def minDistance(dist, goal, sptSet): 
         mini = float('inf')
@@ -42,7 +42,7 @@ def minDistance(dist, goal, sptSet):
 def listActions(curPos, goal_grid):
     startingGoal = list(goal_grid.copy())
     startingGoal.insert(0, curPos)
-    graph = [[getCostWeighted(pos1, pos2, goal_grid) for pos1 in startingGoal]  for pos2 in startingGoal]
+    graph = [[getCost(pos1, pos2, goal_grid) for pos1 in startingGoal]  for pos2 in startingGoal]
     length = len(startingGoal)
     sptSet = [False] * length
     dist = [float('inf')] * length
