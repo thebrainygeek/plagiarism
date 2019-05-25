@@ -58,7 +58,7 @@ def getCost(pos1, pos2, goal_grid):
 **Quantitative Efficiency**
 We use the total distance traveled, or the sum of all of the distances traveled to place all of the blocks, in order to determine how efficient our algorithm is. 
 
-We compare the total distance traveled to that of a **smart random algorithm**. This algorithm starts from the bottom layer and works upward. Within each layer it chooses the blocks completely randomly.
+We compare the total distance traveled to that of a **smart random algorithm**. This algorithm starts from the bottom level and works upward. Within each level it chooses the blocks completely randomly.
 
 **Missions**
 
@@ -88,3 +88,7 @@ We would like to run this algorithm on much taller, larger, and more diverse bui
 ## Resources Used
 
 We looked towards Campuswire for solutions to many of our problems. We also Assignment 1 to help with our algorithm.
+
+# Status Video
+
+![Status Video](https://www.youtube.com/watch?v=7LxSEu_OBNw)
