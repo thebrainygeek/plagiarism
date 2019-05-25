@@ -9,7 +9,7 @@ The goal of the Plagiarism project is to construct the minecraft structure provi
 
 ## Our House
 ![Our House](https://raw.githubusercontent.com/thebrainygeek/plagiarism/master/docs/images/mission5House.png)
-
+<img src="https://raw.githubusercontent.com/thebrainygeek/plagiarism/master/docs/images/mission5House.png" width="682" height="368" align="middle"/>
 [Source Code][refCode] / [Detailed Doc][refDoc] / [Pictures][refPictures]
 
 [refCode]: https://github.com/thebrainygeek/plagiarism/tree/master/project
