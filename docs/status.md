@@ -5,9 +5,9 @@ title:  Status
 
 ##  Project Summary
 
-Our project, the Minecraft Plagiarizer creates a building in Minecraft. The user gives it a building as defined by locations of filled blocks with their corresponding types, and this Plagiarizer generates the best way to create the building. The efficiency for our project is determined by minimizing the distance the agent has to travel while building the provided structure.
+Our project, the Minecraft Plagiarizer creates a 3D structure in Minecraft. The user gives it a structure as defined by locations of filled blocks with their corresponding types, and this Plagiarizer generates the best way to create the structure. The efficiency for our project is determined by minimizing the distance the agent has to travel while building the provided structure.
 
-The input is a dictionary where keys are the locations for the blocks and they correspond the type of block that needs to be placed. The output is the cost to build the structure, where cost is the total distance travelled by the agent.
+The input is a dictionary where keys are the locations for the blocks and the value is the type of the block that needs to be placed at that particular location. The output is the cost to build the structure, where cost is the total distance travelled by the agent.
 
 ## Approach
 
@@ -91,4 +91,4 @@ We looked towards Campuswire for solutions to many of our problems. We also Assi
 
 # Status Video
 
-![Status Video](https://www.youtube.com/watch?v=7LxSEu_OBNw)
+[![](http://img.youtube.com/vi/7LxSEu_OBNw/0.jpg)](http://www.youtube.com/watch?v=7LxSEu_OBNw "Plagiarism Video")
