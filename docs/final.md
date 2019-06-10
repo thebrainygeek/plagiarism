@@ -28,7 +28,7 @@ for v in range(length):
 ```
 
 
-Therefore, we recognize the problem as a Traveling Salesman problem and implement the Nearest neighbour algorithm to solve it. The nearest neighbour algorithm starts at a random block and repeatedly visits the nearest block until all have been visited. However, there are still some problems existing, such as it can sometimes miss shorter routes which are easily noticed with human insight, due to its "greedy" nature.
+Therefore, we recognize the problem as a Traveling Salesman problem and implement the Nearest Neighbour algorithm to solve it. The Nearest Neighbour algorithm starts at a random block and repeatedly visits the nearest block until all have been visited. Even though this algorithm works better than Dijkstra's algorithm because no 3D space issues exist, there are still some mistakes might happen, such as it can sometimes miss shorter routes which are easily noticed with human insight, due to its "greedy" nature.
 
 ``` python
 path = [start] 
