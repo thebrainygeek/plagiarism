@@ -10,7 +10,7 @@ def getNextActions(goal_grid, curPos):
 
 def findClosest(goal_grid, curPos):
     dist = 1
-    blocks = getOnY(goal_grid, curPos[0]) 
+    blocks = reader.getOnY(goal_grid, curPos[0])
     while(True):
         for x, y in [(dist, 0), (-dist, 0), (dist, dist), (dist, -dist), (0, dist), (0, -dist), (-dist, dist), (-dist, -dist)]:
             curChecking = (curPos[1] + x, curPos[2] + y)
@@ -21,7 +21,7 @@ def findClosest(goal_grid, curPos):
 def checkInGrid(goal_grid, check):
     return (check[1] > 0) and (check[2] > 0) and (check[1] < goal_grid[0].length) and (check[2] < goal_grid[0][0].length)
 
-def getCost(pos1, pos2, goal_grid):
+def getCost(pos1, pos2):
     return math.sqrt(abs(pos1[0] - pos2[0])**2 + abs(pos1[1] - pos2[1])**2 + abs(pos1[2] - pos2[2])**2 )
 #
 # def getCostWeighted(pos1, pos2, goal_grid):
@@ -41,7 +41,7 @@ def minDistance(dist, goal, sptSet):
 def listActions(curPos, goal_grid):
     startingGoal = list(goal_grid.copy())
     startingGoal.insert(0, curPos)
-    graph = [[getCost(pos1, pos2, goal_grid) for pos1 in startingGoal]  for pos2 in startingGoal]
+    graph = [[getCost(pos1, pos2) for pos1 in startingGoal]  for pos2 in startingGoal]
     length = len(startingGoal)
     sptSet = [False] * length
     dist = [float('inf')] * length
@@ -55,3 +55,37 @@ def listActions(curPos, goal_grid):
                 dist[v] = dist[u] + graph[u][v] 
         finalList.append(startingGoal[u])
     return finalList[1:]
+
+def getOnZ(d,i):
+    c = []
+    for k in d:
+        if k[2] == i:
+            c+=k
+    return c
+
+def closestPoint(point, route, visited):
+    dmin = float("inf")
+    for p in route:
+        d = getCost(point, p)
+        if (p[0], p[1], p[2]-1) == (point[0], point[1], point[2]):
+            d += 1
+            if d < dmin:
+                dmin = d
+                closest = p
+        elif d < dmin and (((p[0], p[1], p[2]-1) in visited) or p[2]==227):
+            dmin = d
+            closest = p
+    return closest, dmin
+
+def nearestN(curPos, goal_grid):
+    unvisited = list(goal_grid.copy())
+    visited = []
+    while len(unvisited)>0:
+        closest, dist = closestPoint(curPos, unvisited, visited)
+        visited.append(closest)
+        unvisited.remove(closest)
+        curPos = closest
+    # print (visited)
+    return visited
+
+

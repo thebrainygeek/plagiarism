@@ -13,8 +13,8 @@ import sys
 import time
 import reader
 import math
-from mission.mission4 import missionFile
-from actions import getCost, listActions
+from mission.mission6 import missionFile
+from actions import getCost, listActions, nearestN
 
 if sys.version_info[0] == 2:
     import Tkinter as tk
@@ -28,7 +28,7 @@ def teleport(agent_host, teleport_x, teleport_y, teleport_z):
     agent_host.sendCommand(tp_command)
 
 
-MODE = "DIK"
+MODE = "TSP"
 
 class PlagiarismAgent(object):
     """Tabular Q-learning agent for discrete state/action spaces."""
@@ -72,7 +72,7 @@ class PlagiarismAgent(object):
                     del remaining_floor[target]
                     current_blocks[target] = block_type
                     total_cost += getCost([location[0], location[1], location[2]],
-                                          [target[0] - 0.5, target[1] - 0.5, target[2]], None)
+                                          [target[0] - 0.5, target[1] - 0.5, target[2]])
                     print("COST IS", total_cost, "\n")
                 current_level += 1
             return total_cost
@@ -90,7 +90,25 @@ class PlagiarismAgent(object):
                 del actions[0]
                 current_blocks[target] = block_type
                 total_cost += getCost([location[0], location[1], location[2]],
-                                      [target[0] - 0.5, target[1] - 0.5, target[2]], None)
+                                      [target[0] - 0.5, target[1] - 0.5, target[2]])
+                print("COST IS", total_cost, "\n")
+                current_level += 1
+            return total_cost
+        elif MODE == "TSP":
+            location = []
+            load_location(world_state, location)
+            actions = nearestN((location[0], location[1], location[2]), input)
+            while world_state.is_mission_running and current_blocks != input:
+                target = actions[0]
+                print("Chosen Block", target)
+                location = []
+                load_location(world_state, location)
+                block_type = input[target]
+                move_to_target(location, target, world_state, current_blocks, block_type)
+                del actions[0]
+                current_blocks[target] = block_type
+                total_cost += getCost([location[0], location[1], location[2]],
+                                      [target[0] - 0.5, target[1] - 0.5, target[2]])
                 print("COST IS", total_cost, "\n")
                 current_level += 1
             return total_cost
