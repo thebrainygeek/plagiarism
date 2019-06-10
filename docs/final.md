@@ -28,7 +28,19 @@ for v in range(length):
 ```
 
 
-Therefore, we recognize the problem as a Traveling Salesman problem and implement the Nearest neighbour algorithm to solve it. The nearest neighbour algorithm starts at a random block and repeatedly visits the nearest block until all have been visited. However, there are still some problems existing, and we will mention them in the evaluation part.
+Therefore, we recognize the problem as a Traveling Salesman problem and implement the Nearest neighbour algorithm to solve it. The nearest neighbour algorithm starts at a random block and repeatedly visits the nearest block until all have been visited. However, there are still some problems existing, such as it can sometimes miss shorter routes which are easily noticed with human insight, due to its "greedy" nature.
+
+``` python
+unvistied[start] = False
+for v in range(length-1):
+    last = path[-1]
+    next_index = np.argmin(A[last][unvisited])                # find minimum of remaining locations
+    next_block = np.arange(length-1)[unvisited][next_index] # convert to original location
+    finalList.append(next_block)
+    unvisited[next_block] = False
+    cost += A[last, next_block]
+``` 
+
 Inputs
 * Current position
 * Dictionary of all of the blocks that need to be placed
