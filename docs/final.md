@@ -34,8 +34,8 @@ Therefore, we recognize the problem as a Traveling Salesman problem and implemen
 unvistied[start] = False
 for v in range(length-1):
     last = path[-1]
-    next_index = np.argmin(A[last][unvisited])              # find minimum of remaining locations
-    next_block = np.arange(length-1)[unvisited][next_index] # convert to original location
+    next_index = np.argmin(A[last][unvisited])              # find minimum of remaining blocks
+    next_block = np.arange(length-1)[unvisited][next_index] # convert to original block
     finalList.append(next_block)
     unvisited[next_block] = False
     cost += A[last, next_block]
