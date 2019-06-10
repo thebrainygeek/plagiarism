@@ -34,6 +34,7 @@ Inputs
 * Dictionary of all of the blocks that need to be placed
 * key: tuple of the location of the block
 * value: type of block that needs to be placed
+
 Process We are using Nearest neighbour algorithm, which initialize all blocks as unvisited, visit an arbitrary block, set it as the current block and mark it as visited, and find out the shortest path connecting the current block and an unvisited block by using our cost functions. The cost function is the distance in 3D space between the block that needs to be placed and the current location. If all the blocks in the dictionary are visited, then terminated. Else, keep visiting the remaining blocks.
 
 Output
