@@ -31,6 +31,7 @@ for v in range(length):
 Therefore, we recognize the problem as a Traveling Salesman problem and implement the Nearest neighbour algorithm to solve it. The nearest neighbour algorithm starts at a random block and repeatedly visits the nearest block until all have been visited. However, there are still some problems existing, such as it can sometimes miss shorter routes which are easily noticed with human insight, due to its "greedy" nature.
 
 ``` python
+path = [start] 
 unvistied[start] = False
 for v in range(length-1):
     last = path[-1]
