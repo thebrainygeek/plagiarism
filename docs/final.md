@@ -30,17 +30,42 @@ for v in range(length):
 
 Therefore, we recognize the problem as a Traveling Salesman problem and implement the Nearest Neighbour algorithm to solve it. The Nearest Neighbour algorithm starts at a random block and repeatedly visits the nearest block until all have been visited. Even though this algorithm works better than Dijkstra's algorithm because no 3D space issues exist, there are still some mistakes might happen, such as it can sometimes miss shorter routes which are easily noticed with human insight, due to its "greedy" nature.
 
+Process We are using Nearest neighbour algorithm, which initialize all blocks as unvisited, visit an arbitrary block, set it as the current block and mark it as visited, and find out the shortest path connecting the current block and an unvisited block by using our cost functions. The cost function is the distance in 3D space between the block that needs to be placed and the current location. If all the blocks in the dictionary are visited, then terminated. Else, keep visiting the remaining blocks.
+
 ``` python
 path = [start] 
 unvistied[start] = False
 for v in range(length-1):
     last = path[-1]
-    next_index = np.argmin(A[last][unvisited])              # find minimum of remaining blocks
+    next_index = np.argmin(graph[last][unvisited])          # find minimum of remaining blocks
     next_block = np.arange(length-1)[unvisited][next_index] # convert to original block
     finalList.append(next_block)
     unvisited[next_block] = False
-    cost += A[last, next_block]
+    cost += graph[last, next_block]
 ``` 
+
+The advantages of the Dijkstra’s algorithm are as follows:
+
+* Still more efficent than random
+* Need less space than Nearest Neighbour algorithm
+* Running time is shorter than Nearest Neighbor algorithm
+
+Thd disadvantages are as follows:
+
+* 3D space issue might be critical if the structure is huge
+
+
+The advantages of the Nearest Neighbour algorithm are as follows:
+
+* Much more efficent than random and Dijkstra's algorithm
+* No 3D space issue so it could
+* Running time is shorter than Nearest Neighbor algorithm
+
+Thd disadvantages are as follows:
+
+* 3D space issue might be critical if the structure is huge
+
+
 
 Inputs
 * Current position
@@ -48,7 +73,6 @@ Inputs
 * key: tuple of the location of the block
 * value: type of block that needs to be placed
 
-Process We are using Nearest neighbour algorithm, which initialize all blocks as unvisited, visit an arbitrary block, set it as the current block and mark it as visited, and find out the shortest path connecting the current block and an unvisited block by using our cost functions. The cost function is the distance in 3D space between the block that needs to be placed and the current location. If all the blocks in the dictionary are visited, then terminated. Else, keep visiting the remaining blocks.
 
 Output
 * List of blocks that need to be added in the order that they need to be added
