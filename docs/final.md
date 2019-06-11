@@ -55,6 +55,8 @@ Thd disadvantages are as follows:
 * 3D space issue might be critical if the input structure is huge
 * Multiple pathes with same cost will be added but it shouldn't.
 
+-------------------------------------------------
+
 The advantages of the Nearest Neighbour algorithm are as follows:
 
 * Much more efficent than random and Dijkstra's algorithm in most cases
