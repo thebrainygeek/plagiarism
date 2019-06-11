@@ -18,7 +18,7 @@ Our project, the Minecraft Plagiarizer creates a 3D structure in Minecraft. The 
 The input is a dictionary where keys are the locations for the blocks and the value is the type of the block that needs to be placed at that particular location. The output is the cost to build the structure, where cost is the total distance travelled by the agent. This problem can be summarized by the [Traveling Salesman Problem](https://en.wikipedia.org/wiki/Travelling_salesman_problem), where  and we used the [Nearest Neighbor Solution](https://en.wikipedia.org/wiki/Nearest_neighbour_algorithm?fbclid=IwAR0C8TO1ORfp6sNmwoBE1F9ggGoWsAIZdxSdivXJWpt1BQIZaxFs0FM74Lk) to solve it.
 
 ## Approaches
-In the beginning, we used modified Dijkstra’s algorithm in order to figure out the closest blocks to our position and then use that to figure out the order of the placement of blocks. Although this algorithm is significantly better than the random case, we understand that there are certain issues with Dijkstra’s algorithm. Since the algorithm compares everything from the central block, the list is radially outward. This does not make much of a difference in the smaller structures, but in larger ones it has the potential to be a significant source of inefficiency as the blocks chosen will be on an outward circle over time, and will have to move a lot to go across the center of the system. This issue occurs in 3D space, which makes everything all the odder. 
+In the beginning, we used modified Dijkstra’s algorithm in order to figure out the closest blocks to our position and then use that to figure out the order of the placement of blocks. Although this algorithm is significantly better than the random case, we understand that there are certain issues with Dijkstra’s algorithm. Since the algorithm compares everything from the central block, the list is radially outward. This does not make much of a difference in the smaller structures, but in larger ones it has the potential to be a significant source of inefficiency as the blocks chosen will be on an outward circle over time, and will have to move a lot to go across the center of the system. This issue occurs in 3D space, which makes everything all the odder. Also, if there are multiple pathes with same cost, all these blocks would be added but it is totally correct.
 
 ``` python
 for v in range(length): 
@@ -33,50 +33,38 @@ Therefore, we recognize the problem as a Traveling Salesman problem and implemen
 Process We are using Nearest neighbour algorithm, which initialize all blocks as unvisited, visit an arbitrary block, set it as the current block and mark it as visited, and find out the shortest path connecting the current block and an unvisited block by using our cost functions. The cost function is the distance in 3D space between the block that needs to be placed and the current location. If all the blocks in the dictionary are visited, then terminated. Else, keep visiting the remaining blocks.
 
 ``` python
-path = [start] 
-unvistied[start] = False
-for v in range(length-1):
-    last = path[-1]
-    next_index = np.argmin(graph[last][unvisited])          # find minimum of remaining blocks
-    next_block = np.arange(length-1)[unvisited][next_index] # convert to original block
-    finalList.append(next_block)
-    unvisited[next_block] = False
-    cost += graph[last, next_block]
+ unvisited = list(goal_grid.copy())
+ visited = []
+    while len(unvisited)>0:
+        closest, dist = closestPoint(curPos, unvisited, visited)
+        visited.append(closest)
+        unvisited.remove(closest)
+        curPos = closest
+    return visited
 ``` 
 
 The advantages of the Dijkstra’s algorithm are as follows:
 
 * Still more efficent than random
 * Need less space than Nearest Neighbour algorithm
-* Running time is shorter than Nearest Neighbor algorithm
+
 
 Thd disadvantages are as follows:
 
-* 3D space issue might be critical if the structure is huge
-
-
+* Running time is longer than Nearest Neighbor algorithm
+* 3D space issue might be critical if the input structure is huge
+* Multiple pathes with same cost will be added but it shouldn't.
 
 The advantages of the Nearest Neighbour algorithm are as follows:
 
-* Much more efficent than random and Dijkstra's algorithm
-* No 3D space issue so it could work efficently
-* Running time is shorter than Nearest Neighbor algorithm
+* Much more efficent than random and Dijkstra's algorithm in most cases
+* No 3D space issue so agent could build huge structures without any wasting movement
+* Running time shorter than Dijkstra's algorithm 
 
 Thd disadvantages are as follows:
 
-* 
+* Need extra space to store visited and unvisited information
 
 
 
-Inputs
-* Current position
-* Dictionary of all of the blocks that need to be placed
-* key: tuple of the location of the block
-* value: type of block that needs to be placed
-
-
-Output
-* List of blocks that need to be added in the order that they need to be added
-* Once the output has been sent, the agent goes to each position sequentially and adds the correct type of block to the correct position.
-* Total distance traveled
 
