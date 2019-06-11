@@ -42,6 +42,7 @@ Process We are using Nearest neighbour algorithm, which initialize all blocks as
         curPos = closest
     return visited
 ``` 
+-------------------------------------------------
 
 The advantages of the Dijkstra’s algorithm are as follows:
 
