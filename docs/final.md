@@ -53,11 +53,13 @@ We compare the total distance traveled for three levels:
 
 | Mission Number | Smart Random | Dijkstra's | Nearest Neighbor |
 | --------- | ------- | ------- | ------- |
-| 1 | 6.78 | 6.78 | 0% |
-| 2 | 9.89 | 9.89 | 0% |
-| 3 | 121.4 | 100.9 | -16.88633% |
-| 4 | 276.9 | 116.6 | -57.8909% |
-| 5 | 462.4 | 344.37 | -25.5255% | 
+| 1 | 6.78 | 6.78 (0%) | 6.78 (0%) |
+| 2 | 9.89 | 9.89 (0%) | 9.89 (0%) |
+| 3 | 121.4 | 100.9 (-16.8%) | 70.39 (-42.1%) |
+| 4 | 276.9 | 116.6 (-57.9%) | 81.45 (-70.5%) |
+| 5 | 462.4 | 344.37 (-25.5%) | 149.6 (-67.6%) | 
+
+![Chart](https://raw.githubusercontent.com/thebrainygeek/plagiarism/master/docs/images/graph1.png)
 
 **insert chart with changes over time**
 columns, algorithm level
