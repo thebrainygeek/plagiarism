@@ -56,7 +56,7 @@ Thd disadvantages are as follows:
 
 * Running time is longer than Nearest Neighbor algorithm
 * 3D space issue might be critical if the input structure is huge
-* Multiple pathes with same cost will be added but it shouldn't.
+* Multiple pathes with same cost will be both added but it shouldn't.
 
 -------------------------------------------------
 
