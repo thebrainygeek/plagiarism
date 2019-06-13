@@ -70,7 +70,7 @@ Thd disadvantages are as follows:
 
 * Need extra space to store visited and unvisited information
 
-##Evaluation
+## Evaluation
 Missions
 1. 2 separated single blocks on the ground floor
 2. 3 block tall 1 block wide tower
