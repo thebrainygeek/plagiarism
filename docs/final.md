@@ -103,7 +103,7 @@ We compare the total distance traveled for three levels:
 | 4 | 276.9 | 116.6 (-57.9%) | 81.45 (-70.5%) |
 | 5 | 462.4 | 344.37 (-25.5%) | 149.6 (-67.6%) | 
 
-![Chart](https://raw.githubusercontent.com/thebrainygeek/plagiarism/master/docs/images/graph1.png | width=250)
+![Chart](https://raw.githubusercontent.com/thebrainygeek/plagiarism/master/docs/images/graph1-2.png)
 
 For the really small towers there are not many orders that can be made, so the algorithms work the same. Then, we see a significant drop of the Dijkstra's and Nearest Neighbor algorithms compared to the smart random algorithm. Then, the Dijkstra's algorithm stops being a significant improvement compared to the smart random algorithm, and Nearest Neighbor is signficantly better than the other two for the largest structures.
 
