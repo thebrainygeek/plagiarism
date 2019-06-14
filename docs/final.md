@@ -6,13 +6,10 @@ title:  Home
 # Plagiarism
 
 ## Video
-Use speech this time:
-Problem description: 3D structure, copier, dictionary, traveling salesman, nearest neighbor, accounts for height, checks item below is already placed, prioritixes staying on the same floor.
-baseline random: look at this
-neearest neighbor: look at the smarts
+[![](http://img.youtube.com/vi/7LxSEu_OBNw/0.jpg)](https://youtu.be/CDnqwfqW_c8) "Plagiarism Video")
 
 
-##Project Summary
+## Project Summary
 Our project, the Minecraft Plagiarizer creates a 3D structure in Minecraft. The input is the list of blocks (location and type) required to build the structure, and the Plagiarizer generates the most efficient order of blocks to build the structure. The efficiency for our project is determined by minimizing the distance the agent has to travel while building the provided structure.
 
 The input is a dictionary where keys are the locations for the blocks and the value is the type of the block that needs to be placed at that particular location. The output is the cost to build the structure, where cost is the total distance travelled by the agent. 
@@ -110,13 +107,8 @@ We compare the total distance traveled for three levels:
 
 ![Chart](https://raw.githubusercontent.com/thebrainygeek/plagiarism/master/docs/images/graph1.png)
 
-**insert chart with changes over time**
-columns, algorithm level
-rows, length
-one line per missionn
-
 For the really small towers there are not many orders that can be made, so the algorithms work the same. Then, we see a significant drop of the Dijkstra's and Nearest Neighbor algorithms compared to the smart random algorithm. Then, the Dijkstra's algorithm stops being a significant improvement compared to the smart random algorithm, and Nearest Neighbor is signficantly better than the other two for the largest structures.
 
-##References
+## References
 
 https://github.com/topics/travelling-salesman-problem?l=python
